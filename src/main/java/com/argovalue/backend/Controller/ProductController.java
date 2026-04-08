@@ -1,0 +1,56 @@
+package com.argovalue.backend.Controller;
+
+import com.argovalue.backend.model.Product;
+import com.argovalue.backend.service.ProductService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/products")
+@CrossOrigin(origins = "*")
+public class ProductController {
+
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Product>> getAllProducts() {
+        return ResponseEntity.ok(productService.getAllProducts());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.getProductById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        return ResponseEntity.ok(productService.createProduct(product));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id,
+                                                  @RequestBody Product product) {
+        return ResponseEntity.ok(productService.updateProduct(id, product));
+    }
+
+    @PatchMapping("/{id}/approve")
+    public ResponseEntity<Product> approveProduct(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.updateStatus(id, "approved"));
+    }
+
+    @PatchMapping("/{id}/reject")
+    public ResponseEntity<Product> rejectProduct(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.updateStatus(id, "rejected"));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
+    }
+}
