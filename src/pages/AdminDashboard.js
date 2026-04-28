@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import { productService } from '../services/productService';
+import ProductApproval from './ProductApproval';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -127,6 +128,7 @@ const AdminDashboard = () => {
       <div style={{display:'flex', gap:'10px', margin:'20px 0'}}>
         <button onClick={() => setActiveTab('users')} style={{...btnStyle(activeTab==='users'?'#16a34a':'#6b7280'), padding:'10px 24px', fontSize:'15px'}}>👥 Users</button>
         <button onClick={() => setActiveTab('products')} style={{...btnStyle(activeTab==='products'?'#16a34a':'#6b7280'), padding:'10px 24px', fontSize:'15px'}}>📦 Products</button>
+        <button onClick={() => setActiveTab('approval')} style={{...btnStyle(activeTab==='approval'?'#16a34a':'#6b7280'), padding:'10px 24px', fontSize:'15px'}}>✓ Approvals</button>
       </div>
 
       {loading ? <p style={{textAlign:'center',padding:'40px'}}>Loading...</p> : (
@@ -252,6 +254,11 @@ const AdminDashboard = () => {
                 </tbody>
               </table>
             </div>
+          )}
+
+          {/* ── PRODUCT APPROVAL TAB ── */}
+          {activeTab === 'approval' && (
+            <ProductApproval />
           )}
         </>
       )}
